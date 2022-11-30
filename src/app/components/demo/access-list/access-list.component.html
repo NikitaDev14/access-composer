@@ -1,0 +1,24 @@
+<div class="container">
+  <table class="table table-hover table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col" *ngFor="let heading of headings">{{heading}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let userAccess of usersAccess; index as i">
+        <th scope="row">{{i + 1}}</th>
+        <td>{{userAccess.user.name}}</td>
+        <td>{{userAccess.user.title}}</td>
+        <td>{{userAccess.user.joiningDate | date}}</td>
+        <td>{{userAccess.access.AWS}}</td>
+        <td>{{userAccess.access.Email}}</td>
+        <td>{{userAccess.access.GitHub}}</td>
+        <td>{{userAccess.access.Jira}}</td>
+        <td>{{userAccess.access.Postman}}</td>
+        <td>{{userAccess.access.Slack}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
