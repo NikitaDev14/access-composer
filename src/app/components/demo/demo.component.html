@@ -1,5 +1,7 @@
-<app-access-list *ngIf="isClientInitialized$ | async; else initClientForm"></app-access-list>
+<!--<app-access-list *ngIf="isClientInitialized$ | async; else initClientForm"></app-access-list>-->
 
-<ng-template #initClientForm>
-  <app-init-client-form></app-init-client-form>
-</ng-template>
+<!--<ng-template #initClientForm>-->
+<!--  <app-init-client-form></app-init-client-form>-->
+<!--</ng-template>-->
+
+<router-outlet></router-outlet>

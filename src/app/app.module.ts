@@ -10,6 +10,13 @@ import { InitClientFormComponent } from './components/demo/init-client-form/init
 import { reducers } from "./reducers";
 import { LandingComponent } from './components/landing/landing.component';
 import { DemoComponent } from './components/demo/demo.component';
+import { ClientAccessFormComponent } from './components/demo/client-access-form/client-access-form.component';
+import { ReactiveFormsModule } from "@angular/forms";
+import { ClientEffects } from "./effects/client.effects";
+import { LoaderComponent } from './components/loader/loader.component';
+import { AccessControlComponent } from './components/demo/access-control/access-control.component';
+import { UserEffects } from "./effects/user.effects";
+import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -18,17 +25,22 @@ import { DemoComponent } from './components/demo/demo.component';
     InitClientFormComponent,
     LandingComponent,
     DemoComponent,
+    ClientAccessFormComponent,
+    LoaderComponent,
+    AccessControlComponent,
+    FilterPipe,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     StoreModule.forRoot(reducers, {
       runtimeChecks: {
         strictActionImmutability: true,
         strictStateImmutability: true,
       },
     }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([ClientEffects, UserEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent]

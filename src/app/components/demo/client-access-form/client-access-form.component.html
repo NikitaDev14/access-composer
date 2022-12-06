@@ -1,0 +1,23 @@
+<form
+  class="row g-3" novalidate
+  [formGroup]="accessForm" (ngSubmit)="submit()">
+
+  <div
+    class="form-check form-switch"
+    *ngFor="let accessControl of accessForm.controls | keyvalue; trackBy: trackFn">
+
+    <input
+      class="form-check-input" type="checkbox" role="switch"
+      [formControlName]="accessControl.key" [checked]="accessControl.value.value" [attr.id]="accessControl.key + 'Checkbox'">
+    <label
+      class="form-check-label"
+      [attr.for]="accessControl.key + 'Checkbox'">
+      {{accessControl.key}}
+    </label>
+  </div>
+
+  <div class="col-auto">
+    <button type="submit" class="btn btn-primary mb-3">Next</button>
+  </div>
+</form>
+

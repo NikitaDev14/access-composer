@@ -1,1 +1,13 @@
-<p>init-client-form works!</p>
+<form
+  class="row g-3" novalidate
+  [formGroup]="initClientForm" (ngSubmit)="submit()">
+
+  <div class="col-auto">
+    <label for="inputDomain" class="visually-hidden">Domain</label>
+    <input type="text" class="form-control" id="inputDomain" formControlName="domain" placeholder="ex. google.com">
+  </div>
+
+  <div class="col-auto">
+    <button type="submit" class="btn btn-primary mb-3">Submit</button>
+  </div>
+</form>

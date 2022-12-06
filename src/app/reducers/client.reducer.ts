@@ -1,5 +1,5 @@
-import { ClientState, initialClientState } from "../states";
-import { ACCESS_INITIALIZED_ACTION, CLIENT_INITIALIZED_ACTION, ClientActions } from "../actions/client.actions";
+import { CLIENT_ACCESS_INITIALIZED_ACTION, CLIENT_INITIALIZED_ACTION, ClientActions } from "../actions/client.actions";
+import { ClientState, initialClientState } from "../states/client.state";
 
 export const clientReducer = (
   state: ClientState = initialClientState,
@@ -18,7 +18,7 @@ export const clientReducer = (
       };
     }
 
-    case ACCESS_INITIALIZED_ACTION: {
+    case CLIENT_ACCESS_INITIALIZED_ACTION: {
       return {
         ...state,
         clientAccess: {

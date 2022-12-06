@@ -1,24 +1,17 @@
-import { Client, User } from "./profile.model";
-
 export enum Tools {
-  Email,
-  Jira,
-  GitHub,
-  Slack,
-  Postman,
-  AWS,
+  Email = 'Email',
+  Jira = 'Jira',
+  GitHub = 'GitHub',
+  Slack = 'Slack',
+  Postman = 'Postman',
+  AWS = 'AWS',
 }
 
-export type Access = {
-  [key in keyof typeof Tools]: boolean;
+export type Access<T> = {
+  [key in keyof typeof Tools]: T;
 }
 
-export interface UserAccess {
-  user: User;
-  access: Access;
-}
-
-export interface ClientAccess {
-  client: Client;
-  access: Access;
+export interface UpdateAccessActionPayload {
+  userId: number;
+  tool: Tools;
 }

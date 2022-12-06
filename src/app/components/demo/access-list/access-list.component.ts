@@ -1,27 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from "rxjs";
+import { Store } from "@ngrx/store";
 
-import { Access, UserAccess } from '../../../models/access.model';
-import { User } from '../../../models/profile.model';
-import { usersAccess } from "../../../fixtures";
+import { Access, Tools, UpdateAccessActionPayload } from '../../../models/access.model';
+import { AppState } from "../../../states";
+import { selectUsersAccess } from "../../../selectors/user.selectors";
+import { selectClientAccess } from "../../../selectors/client.selectors";
+import { UserAccessState } from "../../../states/users.state";
+import { UpdateUserAccessAction } from "../../../actions/users.action";
+import { KeyValue } from "@angular/common";
 
 @Component({
   selector: 'app-access-list',
   templateUrl: './access-list.component.html',
   styleUrls: ['./access-list.component.scss']
 })
-export class AccessListComponent {
-  usersAccess: UserAccess[] = usersAccess;
+export class AccessListComponent implements OnInit {
+  public readonly TOOLS = Tools;
 
-  headings: string[] = [
-    ...this.getUserFields(),
-    ...(Object.keys(usersAccess[0].access) as Array<keyof Access>),
-  ];
+  public clientAccess$!: Observable<Access<boolean>>;
+  public usersAccess$!: Observable<UserAccessState[]>;
 
-  private getUserFields(): string[] {
-    const tempUser: Partial<User> = {...usersAccess[0].user};
+  constructor(
+    private store: Store<AppState>,
+  ) { }
 
-    delete tempUser.id;
+  ngOnInit() {
+    this.clientAccess$ = this.store.select(selectClientAccess);
+    this.usersAccess$ = this.store.select(selectUsersAccess);
+  }
 
-    return Object.keys(tempUser);
+  public usersAccessTrackFn(index: number, item: UserAccessState): number {
+    return item.user.id;
+  }
+
+  public clientAccessTrackFn(index: number, item: KeyValue<string, Access<boolean>>): string {
+    return item.key;
+  }
+
+  public updateAccess($event: UpdateAccessActionPayload) {
+    this.store.dispatch(new UpdateUserAccessAction($event));
   }
 }
