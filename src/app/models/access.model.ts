@@ -1,5 +1,5 @@
 export enum Tools {
-  Email = 'Email',
+  Gmail = 'Gmail',
   Jira = 'Jira',
   GitHub = 'GitHub',
   Slack = 'Slack',

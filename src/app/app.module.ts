@@ -17,6 +17,7 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { AccessControlComponent } from './components/demo/access-control/access-control.component';
 import { UserEffects } from "./effects/user.effects";
 import { FilterPipe } from './pipes/filter.pipe';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { FilterPipe } from './pipes/filter.pipe';
     LoaderComponent,
     AccessControlComponent,
     FilterPipe,
+    NotificationsComponent,
   ],
   imports: [
     BrowserModule,

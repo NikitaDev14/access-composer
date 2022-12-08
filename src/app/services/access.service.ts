@@ -5,9 +5,9 @@ import { delay, Observable, of } from "rxjs";
   providedIn: 'root'
 })
 export class AccessService {
-  public updateAccess(): Observable<boolean> {
+  public updateAccess(delayTime: number = 1000): Observable<boolean> {
     return of(true).pipe(
-      delay(1000),
+      delay(delayTime),
     );
   }
 }

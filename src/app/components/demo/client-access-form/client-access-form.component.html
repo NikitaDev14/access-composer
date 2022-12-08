@@ -3,11 +3,11 @@
   [formGroup]="accessForm" (ngSubmit)="submit()">
 
   <div
-    class="form-check form-switch"
+    class="form-check"
     *ngFor="let accessControl of accessForm.controls | keyvalue; trackBy: trackFn">
 
     <input
-      class="form-check-input" type="checkbox" role="switch"
+      class="form-check-input" type="checkbox"
       [formControlName]="accessControl.key" [checked]="accessControl.value.value" [attr.id]="accessControl.key + 'Checkbox'">
     <label
       class="form-check-label"
@@ -17,7 +17,7 @@
   </div>
 
   <div class="col-auto">
-    <button type="submit" class="btn btn-primary mb-3">Next</button>
+    <button type="submit" class="btn btn-primary mb-3">Connect</button>
   </div>
 </form>
 

@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AbstractControl, FormBuilder, FormGroup } from "@angular/forms";
+import { Router } from "@angular/router";
 import { KeyValue } from "@angular/common";
 import { Store } from "@ngrx/store";
 import { Subscription } from "rxjs";
@@ -7,8 +8,7 @@ import { Subscription } from "rxjs";
 import { AppState } from "../../../states";
 import { Access, Tools } from "../../../models/access.model";
 import { selectClientAccess } from "../../../selectors/client.selectors";
-import { ClientAccessInitializedAction } from "../../../actions/client.actions";
-import { Router } from "@angular/router";
+import { ClientAccessInitializeAction } from "../../../actions/client.actions";
 import { RoutePaths } from "../../../route-paths.enum";
 import { initialClientState } from "../../../states/client.state";
 
@@ -48,10 +48,7 @@ export class ClientAccessFormComponent implements OnInit, OnDestroy {
       .forEach((accessItem: [string, boolean]) => {
         result.addControl(
           accessItem[0],
-          this.fb.control(
-            accessItem[1],
-            accessItem[0] === Tools.Email ? Validators.requiredTrue : null,
-          ),
+          this.fb.control(accessItem[1]),
         );
       });
 
@@ -64,7 +61,7 @@ export class ClientAccessFormComponent implements OnInit, OnDestroy {
 
   public submit() {
     if (this.accessForm.valid) {
-      this.store.dispatch(new ClientAccessInitializedAction(this.accessForm.value as Access<boolean>));
+      this.store.dispatch(new ClientAccessInitializeAction(this.accessForm.value as Access<boolean>));
 
       this.router.navigate([RoutePaths.DEMO, RoutePaths.USERS_ACCESS]);
     }

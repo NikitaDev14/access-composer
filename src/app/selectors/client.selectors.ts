@@ -15,3 +15,8 @@ export const selectClientAccess = createSelector(
   selectClientState,
   (clientState: ClientState): Access<boolean> => clientState.clientAccess.access,
 );
+
+export const selectIsInitializedClientAccess = createSelector(
+  selectClientAccess,
+  (clientAccess: Access<boolean>): boolean => Object.values(clientAccess).some((clientAccessValue: boolean) => clientAccessValue),
+)

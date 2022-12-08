@@ -1,10 +1,10 @@
-import { clientAccess } from "../fixtures/client.fixtures";
 import { Client } from "../models/profile.model";
 import { Access } from "../models/access.model";
 
 export interface ClientAccessState {
   client: Client;
   access: Access<boolean>;
+  isLoading: boolean;
 }
 
 export interface ClientState {
@@ -12,5 +12,18 @@ export interface ClientState {
 }
 
 export const initialClientState: ClientState = {
-  clientAccess: clientAccess,
+  clientAccess: {
+    client: {
+      domain: 'google.com',
+    },
+    access: {
+      Gmail: false,
+      Slack: false,
+      Postman: false,
+      AWS: false,
+      Jira: false,
+      GitHub: false,
+    },
+    isLoading: false,
+  },
 };

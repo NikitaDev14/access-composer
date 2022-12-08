@@ -3,7 +3,7 @@ import { User } from "../models/profile.model";
 
 const developersAccess: Access<boolean> = {
   AWS: false,
-  Email: true,
+  Gmail: true,
   Jira: true,
   GitHub: true,
   Postman: true,
@@ -12,7 +12,7 @@ const developersAccess: Access<boolean> = {
 
 const newComerAccess: Access<boolean> = {
   AWS: false,
-  Email: false,
+  Gmail: false,
   Jira: false,
   GitHub: false,
   Postman: false,

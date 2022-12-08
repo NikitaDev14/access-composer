@@ -8,6 +8,7 @@ import { InitClientGuard } from "./guards/init-client.guard";
 import { ClientAccessFormComponent } from "./components/demo/client-access-form/client-access-form.component";
 import { AccessListComponent } from "./components/demo/access-list/access-list.component";
 import { RoutePaths } from "./route-paths.enum";
+import { ClientAccessGuard } from "./guards/client-access.guard";
 
 const routes: Routes = [{
   path: RoutePaths.LANDING,
@@ -29,7 +30,7 @@ const routes: Routes = [{
   }, {
     path: RoutePaths.USERS_ACCESS,
     component: AccessListComponent,
-    canActivate: [InitClientGuard],
+    canActivate: [InitClientGuard, ClientAccessGuard],
   }],
 }];
 

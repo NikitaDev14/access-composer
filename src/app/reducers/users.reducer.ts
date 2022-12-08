@@ -25,7 +25,7 @@ export const usersReducer = (
                 return [
                   userAccessEntry[0] as keyof Tools,
                   {
-                    hasAccess: action.payload[userAccessEntry[0] as keyof Access<boolean>],
+                    hasAccess: userAccessEntry[1].hasAccess,
                     isLoading: false,
                   },
                 ];
