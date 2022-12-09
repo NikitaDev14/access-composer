@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { switchMap, withLatestFrom } from "rxjs";
+import { mergeMap, switchMap, withLatestFrom } from "rxjs";
 import { Store } from "@ngrx/store";
 
 import {
@@ -12,6 +12,7 @@ import { UserAccessInitializedAction } from "../actions/users.action";
 import { NotificationFacadeService } from "../services/notification-facade.service";
 import { selectClientAccess } from "../selectors/client.selectors";
 import { AppState } from "../states";
+import { AccessService } from "../services/access.service";
 
 @Injectable()
 export class ClientEffects {
@@ -19,22 +20,25 @@ export class ClientEffects {
     private store: Store<AppState>,
     private actions$: Actions,
     private notificationFacadeService: NotificationFacadeService,
+    private accessService: AccessService,
   ) { }
 
   load$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CLIENT_ACCESS_INITIALIZE_ACTION),
       withLatestFrom(this.store.select(selectClientAccess)),
-      switchMap(([action, currentAccess]: [ClientAccessInitializeAction, Access<boolean>]) => {
-        debugger;
+      switchMap(([action, currentAccess]: [ClientAccessInitializeAction, Access<boolean>]) =>
+        this.accessService.updateAccess(2000).pipe(
+          mergeMap(() => {
+            this.notificationFacadeService.notifyAboutClientAccess(action.payload, currentAccess);
 
-        this.notificationFacadeService.notifyAboutClientAccess(action.payload, currentAccess);
-
-        return [
-          new ClientAccessInitializedAction(action.payload),
-          new UserAccessInitializedAction(action.payload),
-        ];
-      }),
+            return [
+              new ClientAccessInitializedAction(action.payload),
+              new UserAccessInitializedAction(action.payload),
+            ];
+          }),
+        ),
+      ),
     ),
   );
 }

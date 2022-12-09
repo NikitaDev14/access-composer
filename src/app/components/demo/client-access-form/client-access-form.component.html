@@ -8,7 +8,9 @@
 
     <input
       class="form-check-input" type="checkbox"
-      [formControlName]="accessControl.key" [checked]="accessControl.value.value" [attr.id]="accessControl.key + 'Checkbox'">
+      [formControlName]="accessControl.key"
+      [checked]="accessControl.value.value"
+      [attr.id]="accessControl.key + 'Checkbox'">
     <label
       class="form-check-label"
       [attr.for]="accessControl.key + 'Checkbox'">
@@ -17,7 +19,9 @@
   </div>
 
   <div class="col-auto">
-    <button type="submit" class="btn btn-primary mb-3">Connect</button>
+    <button type="submit" class="btn btn-primary mb-3" [disabled]="isLoading$ | async">
+      {{(isLoading$ | async) ? 'Connecting...' : 'Connect'}}
+    </button>
   </div>
 </form>
 
