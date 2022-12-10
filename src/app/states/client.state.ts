@@ -14,7 +14,7 @@ export interface ClientState {
 export const initialClientState: ClientState = {
   clientAccess: {
     client: {
-      domain: 'google.com',
+      domain: '',
     },
     access: {
       Gmail: false,

@@ -23,5 +23,6 @@ export const selectIsLoadingClientAccess = createSelector(
 
 export const selectIsInitializedClientAccess = createSelector(
   selectClientAccess,
-  (clientAccess: Access<boolean>): boolean => Object.values(clientAccess).some((clientAccessValue: boolean) => clientAccessValue),
-)
+  (clientAccess: Access<boolean>): boolean =>
+    Object.values(clientAccess).some((clientAccessValue: boolean) => clientAccessValue),
+);

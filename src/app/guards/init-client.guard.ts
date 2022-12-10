@@ -21,10 +21,6 @@ export class InitClientGuard implements CanActivate {
     state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> | boolean {
     switch (route.routeConfig?.path) {
-      case RoutePaths.INIT_CLIENT: {
-        return this.initClientRouteGuard();
-      }
-
       case RoutePaths.CLIENT_ACCESS:
       case RoutePaths.USERS_ACCESS: {
         return this.accessRoutesGuard();
@@ -33,19 +29,6 @@ export class InitClientGuard implements CanActivate {
       default:
         return true;
     }
-  }
-
-  private initClientRouteGuard(): Observable<boolean | UrlTree> {
-    return this.store.select(selectIsClientInitialized).pipe(
-      first(),
-      map((isClientInitialized: boolean) => {
-        if (isClientInitialized) {
-          return this.router.createUrlTree([RoutePaths.DEMO, RoutePaths.CLIENT_ACCESS]);
-        }
-
-        return true;
-      }),
-    );
   }
 
   private accessRoutesGuard(): Observable<boolean | UrlTree> {

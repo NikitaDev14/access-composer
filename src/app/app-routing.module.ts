@@ -15,7 +15,7 @@ const routes: Routes = [{
   component: LandingComponent,
 }, {
   path: RoutePaths.DEMO,
-  redirectTo: 'demo/init-client',
+  redirectTo: `${RoutePaths.DEMO}/${RoutePaths.INIT_CLIENT}`,
 }, {
   path: RoutePaths.DEMO,
   component: DemoComponent,
