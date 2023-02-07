@@ -9,7 +9,7 @@ export enum Tools {
 
 export type Access<T> = {
   [key in keyof typeof Tools]: T;
-}
+};
 
 export interface UpdateAccessActionPayload {
   userId: number;

@@ -6,10 +6,10 @@
       role="alert"
       aria-live="assertive"
       aria-atomic="true"
-      *ngFor="let notification of notifications$ | async">
+      *ngFor="let notification of notifications$ | async; trackBy: trackByFn">
       <div class="d-flex">
         <div class="toast-body">
-          {{notification}}
+          {{notification.text}}
         </div>
       </div>
     </div>

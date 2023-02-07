@@ -1,33 +1,14 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, delay, from, Observable, switchMap } from "rxjs";
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationService {
-  private notifications: BehaviorSubject<string[]> = new BehaviorSubject([] as string[]);
+  private static NOTIFICATION_ID: number = 0;
 
-  constructor() {
-    this.notifications.pipe(
-      switchMap((notifications: string[]) => {
-        return from(notifications).pipe(
-          delay(4000),
-        );
-      }),
-    ).subscribe(() => {
-      if (this.notifications.getValue().length) {
-        this.notifications.next(this.notifications.getValue().slice(1));
-      }
-    });
-  }
+  public static NOTIFICATIONS_DISPLAY_TIME = 4000 //milliseconds
 
-  public getNotifications(): Observable<string[]> {
-    return this.notifications.asObservable();
-  }
-
-  public showNotification(text: string) {
-    this.notifications.next(
-      [...this.notifications.getValue(), text],
-    );
+  public getNewNotificationId(): number {
+    return ++NotificationService.NOTIFICATION_ID;
   }
 }

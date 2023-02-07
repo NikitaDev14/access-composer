@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { Access } from "../models/access.model";
+import { Client } from "../models/profile.model";
 
 export const CLIENT_INITIALIZED_ACTION = '[ClientActions] CLIENT_INITIALIZED_ACTION';
 export const CLIENT_ACCESS_INITIALIZE_ACTION = '[ClientActions] CLIENT_ACCESS_INITIALIZE_ACTION';
@@ -8,7 +9,7 @@ export const CLIENT_ACCESS_INITIALIZED_ACTION = '[ClientActions] CLIENT_ACCESS_I
 
 export class ClientInitializedAction implements Action {
   public readonly type = CLIENT_INITIALIZED_ACTION;
-  constructor(public payload: string) { }
+  constructor(public payload: Client['domain']) { }
 }
 
 export class ClientAccessInitializeAction implements Action {

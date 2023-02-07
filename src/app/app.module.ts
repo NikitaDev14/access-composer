@@ -18,6 +18,7 @@ import { AccessControlComponent } from './components/demo/access-control/access-
 import { UserEffects } from "./effects/user.effects";
 import { FilterPipe } from './pipes/filter.pipe';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { NotificationEffects } from "./effects/notification.effects";
 
 @NgModule({
   declarations: [
@@ -42,7 +43,7 @@ import { NotificationsComponent } from './components/notifications/notifications
         strictStateImmutability: true,
       },
     }),
-    EffectsModule.forRoot([ClientEffects, UserEffects]),
+    EffectsModule.forRoot([ClientEffects, UserEffects, NotificationEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent]

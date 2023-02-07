@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { mergeMap, of, tap, withLatestFrom } from "rxjs";
+import { mergeMap, tap, withLatestFrom } from "rxjs";
 
 import {
   UPDATE_USER_ACCESS_ACTION,
@@ -16,6 +16,8 @@ import { selectUsersAccess } from "../selectors/user.selectors";
 import { UserAccessState } from "../states/users.state";
 import { RoutePaths } from "../route-paths.enum";
 import { Router } from "@angular/router";
+import { NotificationShow } from "../actions/notification.actions";
+import { NotificationModel } from "../models/notifications.model";
 
 @Injectable()
 export class UserEffects {
@@ -44,15 +46,20 @@ export class UserEffects {
       mergeMap(([action, usersState]: [UpdateUserAccessAction, UserAccessState[]]) =>
         this.accessService.updateAccess().pipe(
           mergeMap(() => {
-            const userAccessState: UserAccessState = usersState.find((userState: UserAccessState) => userState.user.id === action.payload.userId)!;
+            const userAccessState: UserAccessState = usersState.find((userState: UserAccessState) =>
+              userState.user.id === action.payload.userId
+            )!;
 
-            this.notificationFacade.notifyAboutUserAccess(
+            const notification: NotificationModel = this.notificationFacade.notificationFactory(
               action.payload.tool,
               userAccessState.user,
               !userAccessState.access[action.payload.tool].hasAccess,
-              );
+            );
 
-            return of(new UpdatedUserAccessAction(action.payload));
+            return [
+              new UpdatedUserAccessAction(action.payload),
+              new NotificationShow(notification),
+            ];
           }),
         ),
       ),

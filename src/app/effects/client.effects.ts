@@ -4,8 +4,9 @@ import { mergeMap, switchMap, withLatestFrom } from "rxjs";
 import { Store } from "@ngrx/store";
 
 import {
-  CLIENT_ACCESS_INITIALIZE_ACTION, ClientAccessInitializeAction,
-  ClientAccessInitializedAction
+  CLIENT_ACCESS_INITIALIZE_ACTION,
+  ClientAccessInitializeAction,
+  ClientAccessInitializedAction,
 } from "../actions/client.actions";
 import { Access } from "../models/access.model";
 import { UserAccessInitializedAction } from "../actions/users.action";
@@ -13,6 +14,7 @@ import { NotificationFacadeService } from "../services/notification-facade.servi
 import { selectClientAccess } from "../selectors/client.selectors";
 import { AppState } from "../states";
 import { AccessService } from "../services/access.service";
+import { NotifyClientAccess } from "../actions/notification.actions";
 
 @Injectable()
 export class ClientEffects {
@@ -30,11 +32,13 @@ export class ClientEffects {
       switchMap(([action, currentAccess]: [ClientAccessInitializeAction, Access<boolean>]) =>
         this.accessService.updateAccess(2000).pipe(
           mergeMap(() => {
-            this.notificationFacadeService.notifyAboutClientAccess(action.payload, currentAccess);
-
             return [
               new ClientAccessInitializedAction(action.payload),
               new UserAccessInitializedAction(action.payload),
+              new NotifyClientAccess({
+                prevValue: action.payload,
+                newValue: currentAccess,
+              }),
             ];
           }),
         ),
