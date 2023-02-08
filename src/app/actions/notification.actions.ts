@@ -4,6 +4,7 @@ import { NotificationClientAccess, NotificationModel } from "../models/notificat
 
 export const NOTIFICATION_SHOW = '[NotificationActions] NOTIFICATION_SHOW';
 export const NOTIFICATION_HIDE = '[NotificationActions] NOTIFICATION_HIDE';
+export const NOTIFICATION_FORCE_HIDE = '[NotificationActions] NOTIFICATION_FORCE_HIDE';
 export const NOTIFY_CLIENT_ACCESS = '[NotificationActions] NOTIFY_CLIENT_ACCESS';
 
 export class NotificationShow implements Action {
@@ -16,6 +17,11 @@ export class NotificationHide implements Action {
   constructor(public payload: NotificationModel['id']) { }
 }
 
+export class NotificationForceHide implements Action {
+  public readonly type = NOTIFICATION_FORCE_HIDE;
+  constructor(public payload: NotificationModel) { }
+}
+
 export class NotifyClientAccess implements Action {
   public readonly type = NOTIFY_CLIENT_ACCESS;
   constructor(public payload: NotificationClientAccess) { }
@@ -24,4 +30,5 @@ export class NotifyClientAccess implements Action {
 export type NotificationActions =
   NotificationShow |
   NotificationHide |
+  NotificationForceHide |
   NotifyClientAccess;

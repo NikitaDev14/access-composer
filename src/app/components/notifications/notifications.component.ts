@@ -6,6 +6,7 @@ import { NotificationService } from "../../services/notification.service";
 import { AppState } from "../../states";
 import { NotificationModel } from "../../models/notifications.model";
 import { selectNotifications } from "../../selectors/notification.seceltors";
+import { NotificationForceHide } from "../../actions/notification.actions";
 
 @Component({
   selector: 'app-notifications',
@@ -24,5 +25,9 @@ export class NotificationsComponent {
 
   public trackByFn(index: number, entry: NotificationModel): number {
     return entry.id;
+  }
+
+  public hideNotification(notification: NotificationModel) {
+    this.store.dispatch(new NotificationForceHide(notification));
   }
 }

@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { delay, map, mergeMap, of, switchMap } from "rxjs";
+import { delay, filter, map, mergeMap, of, race, switchMap } from "rxjs";
 
 import { AppState } from "../states";
 import { NotificationFacadeService } from "../services/notification-facade.service";
 import {
-  NOTIFICATION_SHOW, NotificationHide,
+  NOTIFICATION_FORCE_HIDE,
+  NOTIFICATION_SHOW, NotificationForceHide, NotificationHide,
   NotificationShow,
   NOTIFY_CLIENT_ACCESS,
   NotifyClientAccess
@@ -29,7 +30,9 @@ export class NotificationEffects {
       switchMap((payload: NotificationClientAccess) => ([
           ...this.notificationFacadeService
             .notificationsFactory(payload.prevValue, payload.newValue)
-            .map((notification: NotificationModel) => new NotificationShow(notification)),
+            .map((notification: NotificationModel) =>
+              new NotificationShow(notification),
+            ),
         ]),
       ),
     ),
@@ -40,8 +43,16 @@ export class NotificationEffects {
       ofType(NOTIFICATION_SHOW),
       map((action: NotificationShow) => action.payload),
       mergeMap((payload: NotificationModel) =>
-        of(payload).pipe(
-          delay(NotificationService.NOTIFICATIONS_DISPLAY_TIME),
+        race([
+          of(payload).pipe(
+            delay(NotificationService.NOTIFICATIONS_DISPLAY_TIME),
+          ),
+          this.actions$.pipe(
+            ofType(NOTIFICATION_FORCE_HIDE),
+            map((nestedAction: NotificationForceHide) => nestedAction.payload),
+            filter((notification: NotificationModel) => notification.id === payload.id),
+          ),
+        ]).pipe(
           map((notification: NotificationModel) =>
             new NotificationHide(notification.id),
           ),
