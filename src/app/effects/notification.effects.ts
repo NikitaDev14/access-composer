@@ -42,15 +42,17 @@ export class NotificationEffects {
     this.actions$.pipe(
       ofType(NOTIFICATION_SHOW),
       map((action: NotificationShow) => action.payload),
-      mergeMap((payload: NotificationModel) =>
+      mergeMap((shownNotification: NotificationModel) =>
         race([
-          of(payload).pipe(
+          of(shownNotification).pipe(
             delay(NotificationService.NOTIFICATIONS_DISPLAY_TIME),
           ),
           this.actions$.pipe(
             ofType(NOTIFICATION_FORCE_HIDE),
-            map((nestedAction: NotificationForceHide) => nestedAction.payload),
-            filter((notification: NotificationModel) => notification.id === payload.id),
+            map((forceHideAction: NotificationForceHide) => forceHideAction.payload),
+            filter((forceHideNotification: NotificationModel) =>
+              forceHideNotification.id === shownNotification.id,
+            ),
           ),
         ]).pipe(
           map((notification: NotificationModel) =>
