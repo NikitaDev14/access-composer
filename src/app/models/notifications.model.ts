@@ -5,7 +5,7 @@ export interface NotificationModel {
   text: string;
 }
 
-export type NotificationsList = Map<NotificationModel['id'], NotificationModel>;
+export type NotificationsList = NotificationModel[];
 
 export interface NotificationClientAccess {
   prevValue: Access<boolean>;

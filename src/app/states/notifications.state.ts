@@ -1,7 +1,7 @@
 import { NotificationsList } from "../models/notifications.model";
 
 export interface NotificationsState {
-  notifications: NotificationsList
+  notifications: NotificationsList;
 }
 
 export const initialNotificationsState: NotificationsState = {
