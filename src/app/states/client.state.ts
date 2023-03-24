@@ -7,12 +7,7 @@ export interface ClientAccessState {
   isLoading: boolean;
 }
 
-export interface ClientState {
-  clientAccess: ClientAccessState;
-}
-
-export const initialClientState: ClientState = {
-  clientAccess: {
+export const initialClientState: ClientAccessState = {
     client: {
       domain: '',
     },
@@ -25,5 +20,4 @@ export const initialClientState: ClientState = {
       GitHub: false,
     },
     isLoading: false,
-  },
 };

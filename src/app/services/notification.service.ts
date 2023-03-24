@@ -9,7 +9,7 @@ import { NotificationModel, NotificationsList } from "../models/notifications.mo
 export class NotificationService {
   private NOTIFICATION_ID: number = 0;
 
-  private notifications$: BehaviorSubject<NotificationModel[]> = new BehaviorSubject([]);
+  private notifications$: BehaviorSubject<NotificationsList> = new BehaviorSubject(new Map());
 
   private forceHideNotificationSubject$: Subject<NotificationModel> = new Subject();
 
@@ -51,7 +51,7 @@ export class NotificationService {
       ...this.notifications$.getValue().entries(),
       [
         notification.id,
-        notification.text,
+        notification,
       ],
     ]);
 
@@ -63,7 +63,7 @@ export class NotificationService {
   public getNotifications$(): Observable<NotificationModel[]> {
     return this.notifications$.pipe(
       map((notifications: NotificationsList) => {
-        return [...notifications.entries()].map((value: [NotificationModel['id'], NotificationModel['']]))
+        return [...notifications.values()];
       }),
     );
   }

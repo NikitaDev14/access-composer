@@ -14,7 +14,9 @@ import { NotificationFacadeService } from "../services/notification-facade.servi
 import { selectClientAccess } from "../selectors/client.selectors";
 import { AppState } from "../states";
 import { AccessService } from "../services/access.service";
-import { NotifyClientAccess } from "../actions/notification.actions";
+import { NotificationShow, NotifyClientAccess } from "../actions/notification.actions";
+import { NotificationModel } from "../models/notifications.model";
+import { NotificationService } from "../services/notification.service";
 
 @Injectable()
 export class ClientEffects {
@@ -23,6 +25,7 @@ export class ClientEffects {
     private actions$: Actions,
     private notificationFacadeService: NotificationFacadeService,
     private accessService: AccessService,
+    private notificationService: NotificationService,
   ) { }
 
   load$ = createEffect(() =>
@@ -32,13 +35,16 @@ export class ClientEffects {
       switchMap(([action, currentAccess]: [ClientAccessInitializeAction, Access<boolean>]) =>
         this.accessService.updateAccess(2000).pipe(
           mergeMap(() => {
+
+            this.notificationFacadeService
+              .notificationsFactory(action.payload, currentAccess)
+              .forEach((notification: NotificationModel) => {
+                this.notificationService.showNotification(notification);
+              });
+
             return [
               new ClientAccessInitializedAction(action.payload),
               new UserAccessInitializedAction(action.payload),
-              new NotifyClientAccess({
-                prevValue: action.payload,
-                newValue: currentAccess,
-              }),
             ];
           }),
         ),

@@ -7,30 +7,28 @@ import { Observable, shareReplay, Subscription, tap } from "rxjs";
 
 import { AppState } from "../../../states";
 import { Access } from "../../../models/access.model";
-import { selectClientAccess, selectIsLoadingClientAccess } from "../../../selectors/client.selectors";
-import { ClientAccessInitializeAction } from "../../../actions/client.actions";
 import { initialClientState } from "../../../states/client.state";
+import { ClientService } from "../../../services/client.service";
 
 @Component({
   selector: 'app-client-access-form',
   templateUrl: './client-access-form.component.html',
   styleUrls: ['./client-access-form.component.scss']
 })
-export class ClientAccessFormComponent implements OnInit, OnDestroy {
+export class ClientAccessFormComponent implements OnInit {
   public accessForm: FormGroup = this.getAccessFormGroup();
 
   public isLoading$!: Observable<boolean>;
-
-  private formValuesSubscription$!: Subscription;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private store: Store<AppState>,
+    private clientService: ClientService,
   ) { }
 
   ngOnInit() {
-    this.isLoading$ = this.store.select(selectIsLoadingClientAccess).pipe(
+    this.isLoading$ = this.clientService.isClientAccessLoading$().pipe(
       tap((isLoading: boolean) => {
         if (isLoading) {
           this.accessForm.disable();
@@ -41,22 +39,16 @@ export class ClientAccessFormComponent implements OnInit, OnDestroy {
       shareReplay(1),
     );
 
-    this.formValuesSubscription$ = this.store.select(selectClientAccess).subscribe((access: Access<boolean>) => {
-      Object.entries(access).forEach((accessItem: [string, boolean]) => {
-        this.accessForm.get(accessItem[0])?.patchValue(accessItem[1]);
-      });
+    Object.entries(this.clientService.getClientAccess()).forEach((accessItem: [string, boolean]) => {
+      this.accessForm.get(accessItem[0])?.patchValue(accessItem[1]);
     });
-  }
-
-  ngOnDestroy() {
-    this.formValuesSubscription$.unsubscribe();
   }
 
   private getAccessFormGroup(): FormGroup {
     const result = this.fb.group({});
 
     Object
-      .entries(initialClientState.clientAccess.access)
+      .entries(initialClientState.access)
       .forEach((accessItem: [string, boolean]) => {
         result.addControl(
           accessItem[0],
@@ -73,7 +65,7 @@ export class ClientAccessFormComponent implements OnInit, OnDestroy {
 
   public submit() {
     if (this.accessForm.valid) {
-      this.store.dispatch(new ClientAccessInitializeAction(this.accessForm.value as Access<boolean>));
+      this.clientService.initializeAccess(this.accessForm.value as Access<boolean>);
     }
   }
 }

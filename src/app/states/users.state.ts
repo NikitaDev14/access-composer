@@ -11,10 +11,6 @@ export interface UserAccessState {
   access: Access<UserAccessItemState>;
 }
 
-export interface UsersState {
-  usersAccess: UserAccessState[];
-}
+export type UsersState = UserAccessState[]
 
-export const initialUsersState: UsersState = {
-  usersAccess: [],
-};
+export const initialUsersState: UsersState = [];

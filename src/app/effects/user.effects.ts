@@ -18,6 +18,7 @@ import { RoutePaths } from "../route-paths.enum";
 import { Router } from "@angular/router";
 import { NotificationShow } from "../actions/notification.actions";
 import { NotificationModel } from "../models/notifications.model";
+import { NotificationService } from "../services/notification.service";
 
 @Injectable()
 export class UserEffects {
@@ -27,6 +28,7 @@ export class UserEffects {
     private store: Store<AppState>,
     private accessService: AccessService,
     private notificationFacade: NotificationFacadeService,
+    private notificationService: NotificationService,
   ) { }
 
   initializedAccess$ = createEffect(() =>
@@ -56,9 +58,10 @@ export class UserEffects {
               !userAccessState.access[action.payload.tool].hasAccess,
             );
 
+            this.notificationService.showNotification(notification);
+
             return [
               new UpdatedUserAccessAction(action.payload),
-              new NotificationShow(notification),
             ];
           }),
         ),
