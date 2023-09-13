@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { first, map, Observable } from 'rxjs';
 import { Store } from "@ngrx/store";
 
@@ -10,7 +10,7 @@ import { RoutePaths } from "../route-paths.enum";
 @Injectable({
   providedIn: 'root'
 })
-export class ClientAccessGuard implements CanActivate {
+export class ClientAccessGuard  {
   constructor(
     private router: Router,
     private store: Store<AppState>,
