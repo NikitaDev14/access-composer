@@ -1,4 +1,19 @@
+<nav class="navbar sticky-top bg-light mb-4">
+  <div class="container">
+    <a class="navbar-brand" [routerLink]="ROUTE_PATHS.LANDING">
+      <i class="bi bi-universal-access-circle fs-4"></i>
+      <span class="navbar-brand h1">
+        Access composer
+      </span>
+    </a>
+
+    <a class="btn btn-primary" *ngIf="isDemoLinkShown$ | async" [routerLink]="ROUTE_PATHS.DEMO" role="button">Try demo</a>
+  </div>
+</nav>
+
 <app-notifications></app-notifications>
 
-<router-outlet></router-outlet>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
 
