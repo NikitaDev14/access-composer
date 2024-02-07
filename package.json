@@ -19,6 +19,7 @@
     "@angular/platform-browser": "^16.2.12",
     "@angular/platform-browser-dynamic": "^16.2.12",
     "@angular/router": "^16.2.12",
+    "@aws-sdk/client-sns": "^3.507.0",
     "@ngrx/effects": "^16.3.0",
     "@ngrx/store": "^16.3.0",
     "bootstrap": "^5.3.2",

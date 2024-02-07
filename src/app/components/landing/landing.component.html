@@ -16,9 +16,34 @@
 <br/>
 
 <div>
-  <h2>
-    This product could be interesting for companies that use third-party services.
-  </h2>
+  <h2>Do you want to receive updates about the product? Share your email with the form below;)</h2>
+  <form novalidate [formGroup]="subscriptionForm" (ngSubmit)="onSubmit()">
+    <div class="row g-3">
+      <div class="col-auto">
+        <label for="exampleInputEmail1" class="col-form-label">Email address</label>
+      </div>
+      <div class="col-auto">
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+               formControlName="email"
+               [ngClass]="{'is-invalid': subscriptionForm.controls.email.touched && subscriptionForm.controls.email.invalid}">
+        <div id="emailHelp" class="invalid-feedback">
+          Please enter a correct email.
+        </div>
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+          Submit
+        </button>
+        <app-loader *ngIf="isLoading"></app-loader>
+      </div>
+      <div *ngIf="isSent" class="col-auto">
+        Thank you! Your email is saved. We will keep you updated.
+      </div>
+      <div *ngIf="error" class="col-auto">
+        Sorry. An error occurred while saving your email. Please try later.
+      </div>
+    </div>
+  </form>
 </div>
 
 <br/>
